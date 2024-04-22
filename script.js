@@ -1,52 +1,86 @@
-window.onload = function () {
+
+function f(x) {
+    return x**2 - 3;
+} 
+
+function main() {
     let canvas = document.getElementById('canvas');
     let c = canvas.getContext("2d");
-    let input = document.querySelector('#input');
-    let draw = document.querySelector('#draw');
-    function f(x) {
-        return x**3 + 12 * x + 19; 
-    }
-   
+
     let startX = -10;
     let endX = 10;
     let stepX = 0.1;
 
-    let minY = f(startX);
-    let maxY = f(startX);
+    drawGraph(c, startX, endX, stepX, canvas.width, canvas.height);
+    drawAxes(c, canvas);
+}
 
-    for (let x = startX + stepX; x <= endX; x += stepX) {
-        let y = f(x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y);
-    }
-
-    let scaleX = canvas.width / (endX - startX);
-    let scaleY = canvas.height / (maxY - minY);
-
-    let middleY = canvas.height / 2;
-
-
-
+function drawGraph(c, startX, endX, stepX, canvasWidth, canvasHeight) {
+    let pixelStepX = canvasWidth / (endX - startX);
+    let pixelStepY = canvasHeight / 20;
+    
+    let centerY = canvasHeight / 2;
     c.beginPath();
     for (let x = startX; x <= endX; x += stepX) {
-        let y = f(x);
-        let plotX = (x - startX) * scaleX;
-        let plotY = middleY - y * scaleY;
-        c.lineTo(plotX, plotY);
+        let plotX = (x - startX) * pixelStepX; 
+        let plotY = centerY - f(x) * pixelStepY;
+        if (x === startX) {
+            c.moveTo(plotX, plotY);
+        } else {
+            c.lineTo(plotX, plotY);
+        }
     }
     c.strokeStyle = "blue";
     c.stroke();
-
-    c.beginPath();
-    c.moveTo(0, middleY);
-    c.lineTo(canvas.width, middleY);
-    c.strokeStyle = "black";
-    c.stroke();
-
-
-    c.beginPath();
-    c.moveTo(canvas.width / 2, 0);
-    c.lineTo(canvas.width / 2, canvas.height);
-    c.strokeStyle = "black";
-    c.stroke();
 }
+
+function drawAxes(c, canvas) {
+    const tickLength = 5;
+    const tickInterval = 1;
+    const labelPadding = 5;
+
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+
+    c.beginPath();
+    c.moveTo(0, centerY);
+    c.lineTo(canvas.width, centerY);
+    c.strokeStyle = "black";
+    c.stroke();
+
+    for (let x = -10; x <= 10; x += tickInterval) {
+        let plotX = (x - (-10)) * (canvas.width / 20);
+        c.beginPath();
+        c.moveTo(plotX + centerX, centerY - tickLength / 2);
+        c.lineTo(plotX + centerX, centerY + tickLength / 2);
+        c.strokeStyle = "black";
+        c.stroke();
+
+        c.font = "10px Arial";
+        c.fillStyle = "black";
+        c.textAlign = "center";
+        c.fillText(x, plotX + centerX, centerY + labelPadding);
+    }
+
+    c.beginPath();
+    c.moveTo(centerX, 0);
+    c.lineTo(centerX, canvas.height);
+    c.strokeStyle = "black";
+    c.stroke();
+
+    for (let y = -10; y <= 10; y += tickInterval) {
+        let plotY = (10 - y) * (canvas.height / 20);
+        c.beginPath();
+        c.moveTo(centerX - tickLength / 2, plotY + centerY);
+        c.lineTo(centerX + tickLength / 2, plotY + centerY);
+        c.strokeStyle = "black";
+        c.stroke();
+
+        c.font = "10px Arial";
+        c.fillStyle = "black";
+        c.textAlign = "right";
+        c.fillText(y, centerX - labelPadding, plotY + centerY + 3);
+    }
+}
+
+drawGraph();
