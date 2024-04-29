@@ -49,17 +49,25 @@ function drawAxes(c, canvas) {
     c.stroke();
 
     for (let x = -10; x <= 10; x += tickInterval) {
-        let plotX = (x - (-10)) * (canvas.width / 20);
+        let plotX;
+        if (x < 0) {
+            plotX = (x + 10) * (canvas.width / 20);
+        } else if (x === 0) {
+            plotX = centerX;
+        } else {
+            plotX = (x + 10) * (canvas.width / 20);
+        }
+
         c.beginPath();
-        c.moveTo(plotX + centerX, centerY - tickLength / 2);
-        c.lineTo(plotX + centerX, centerY + tickLength / 2);
+        c.moveTo(plotX, centerY - tickLength / 2);
+        c.lineTo(plotX, centerY + tickLength / 2);
         c.strokeStyle = "black";
         c.stroke();
 
         c.font = "10px Arial";
         c.fillStyle = "black";
         c.textAlign = "center";
-        c.fillText(x, plotX + centerX, centerY + labelPadding);
+        c.fillText(x, plotX, centerY + labelPadding);
     }
 
     c.beginPath();
@@ -69,7 +77,7 @@ function drawAxes(c, canvas) {
     c.stroke();
 
     for (let y = -10; y <= 10; y += tickInterval) {
-        let plotY = (10 - y) * (canvas.height / 20);
+        let plotY = (10 - y) * (canvas.height / 20) - centerY;
         c.beginPath();
         c.moveTo(centerX - tickLength / 2, plotY + centerY);
         c.lineTo(centerX + tickLength / 2, plotY + centerY);
@@ -79,8 +87,7 @@ function drawAxes(c, canvas) {
         c.font = "10px Arial";
         c.fillStyle = "black";
         c.textAlign = "right";
-        c.fillText(y, centerX - labelPadding, plotY + centerY + 3);
+        c.fillText(y, centerX - labelPadding, plotY + centerY + labelPadding);
     }
 }
-
-drawGraph();
+main();
