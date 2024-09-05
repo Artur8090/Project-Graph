@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <input type="text" id="xAxisScale" placeholder="X-axis scale">
-    <input type="text" id="yAxisScale" placeholder="Y-axis scale">
     <canvas id="canvas" width="900" height="900"></canvas>
+    <div class="input-area">
+        <p id="title">Modifications</p>
+        <p id="corner-pos">Corner position</p>
+        <p class="characteristic">Size</p>
+        <input type="text" id="size-input" value="100" class="text-input">
+        <p class="characteristic">Color</p>
+        <input type="text" id="color-input" value="Black" class="text-input">
+        <p class="characteristic">Rotation Speed</p>
+        <input type="text" id="speed-input" value="5" class="text-input">
+        <br>
+        <button id="button" width="200px" height="100px">Submit</button>
+    </div>
     <script src="script.js"></script>
 </body>
+
 </html>
