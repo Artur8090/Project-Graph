@@ -1,8 +1,12 @@
 
 function f(x) {
-    return x**2 - 3;
+    return Math.sin(x);
 } 
-
+class Function{
+    constructor(){
+        this.val = val
+    }
+}
 function main() {
     let canvas = document.getElementById('canvas');
     let c = canvas.getContext("2d");
